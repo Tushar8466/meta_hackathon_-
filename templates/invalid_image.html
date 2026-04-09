@@ -1,0 +1,10 @@
+<!-- templates/invalid_image.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="py-32 px-10 text-center max-w-2xl mx-auto flex flex-col items-center">
+    <div class="w-32 h-32 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-5xl mb-10 pulse">⚠️</div>
+    <h2 class="text-5xl font-black text-[#1a432e] mb-6 tracking-tighter">Corrupted Sample</h2>
+    <p class="text-gray-500 font-medium leading-relaxed mb-12 uppercase tracking-wide text-xs">The provided data stream does not match valid leaf pathology visual signatures. Please ensure the sample is clearly focused against a neutral background.</p>
+    <a href="/" class="btn-primary px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl">Return to Scanner</a>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-gradient text-white py-24 px-10 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto relative z-10">
+        <div class="inline-block bg-white/10 px-4 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] mb-6 border border-white/10 uppercase">Neural Scanner Active</div>
+        <h1 class="text-6xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tighter">Detect Crop<br><span class="text-[#34d399]">Diseases</span> Instantly</h1>
+        <p class="text-xl text-white/70 mb-12 max-w-2xl">High-fidelity leaf pathology detection for smallholder farms. Upload a sample to initiate diagnosis protocol.</p>
+        
+        <form action="/predict" method="post" enctype="multipart/form-data" id="upload-form" class="glass-card p-10 rounded-[2rem] text-[#0a1f13] border-none shadow-2xl max-w-xl">
+            <div class="border-2 border-dashed border-[#1a432e]/20 rounded-2xl p-10 flex flex-col items-center group hover:border-[#34d399]/50 transition-all cursor-pointer" onclick="document.getElementById('file-input').click()">
+                <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">📂</div>
+                <p class="font-bold text-lg">Click to Drop Leaf Sample</p>
+                <p class="text-gray-400 text-xs mt-2 uppercase tracking-widest">Supported: JPG, PNG, WEBP (Max 10MB)</p>
+                <input type="file" name="file" id="file-input" class="hidden" accept="image/*" onchange="submitWithLoading()">
+            </div>
+            
+            <div id="loader" class="hidden mt-6 text-center">
+                <div class="inline-block w-8 h-8 border-4 border-[#34d399]/20 border-t-[#34d399] rounded-full animate-spin"></div>
+                <p class="text-xs font-bold text-[#1a432e] mt-3 uppercase tracking-widest">Analyzing Neural Weights...</p>
+            </div>
+        </form>
+    </div>
+    <!-- Decorative -->
+    <div class="absolute top-[-10%] right-[-5%] text-[20rem] opacity-5 pointer-events-none">🌿</div>
+</div>
+
+<script>
+    function submitWithLoading() {
+        document.getElementById('loader').classList.remove('hidden');
+        document.getElementById('upload-form').submit();
+    }
+</script>
+{% endblock %}

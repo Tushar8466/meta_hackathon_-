@@ -1,0 +1,30 @@
+<!-- templates/test_detail.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="py-20 px-10 max-w-4xl mx-auto">
+    <div class="glass-card p-12 rounded-[2.5rem]">
+        <h2 class="text-4xl font-black text-[#1a432e] mb-10 tracking-tight">Technical Specification</h2>
+        <div class="space-y-8">
+            <div class="flex border-b border-gray-50 pb-6">
+                <div class="w-1/3 text-[10px] font-black text-gray-400 uppercase tracking-widest">Interface Mode</div>
+                <div class="w-2/3 font-bold text-[#1a432e]">Flask-Jinja Production Build</div>
+            </div>
+            <div class="flex border-b border-gray-100 pb-6">
+                <div class="w-1/3 text-[10px] font-black text-gray-400 uppercase tracking-widest">UI Framework</div>
+                <div class="w-2/3 font-bold text-[#1a432e]">Tailwind CSS Engine v3.0</div>
+            </div>
+            <div class="flex border-b border-gray-100 pb-6">
+                <div class="w-1/3 text-[10px] font-black text-gray-400 uppercase tracking-widest">ML Backend</div>
+                <div class="w-2/3 font-bold text-[#1a432e]">Stochastic Neural Simulation (Mock)</div>
+            </div>
+            <div class="flex">
+                <div class="w-1/3 text-[10px] font-black text-gray-400 uppercase tracking-widest">Build Manifest</div>
+                <div class="w-2/3 font-bold text-[#1a432e]">HuggingFace Optimized Artifact</div>
+            </div>
+        </div>
+        <div class="mt-20">
+            <a href="/admin" class="text-xs font-black text-[#34d399] uppercase tracking-widest hover:underline">&larr; Back to Control Unit</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

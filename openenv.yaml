@@ -1,0 +1,28 @@
+name: crop-disease-env
+description: RL environment for crop disease detection
+environment: crop-disease-v1
+version: 1.0.0
+
+observation_space:
+  type: image
+  shape: [224, 224, 3]
+
+action_space:
+  type: discrete
+  n: 16
+
+reward_range: [0, 1]
+
+tasks:
+  - name: easy
+    description: Simple disease identification with high confidence.
+  - name: medium
+    description: Disease identification with advisory generation.
+  - name: hard
+    description: Complex diagnosis with treatment and prevention plans.
+
+graders:
+  - name: accuracy_grader
+    type: classification_accuracy
+  - name: advisory_grader
+    type: llm_eval

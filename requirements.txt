@@ -1,0 +1,10 @@
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
+numpy
+pillow
+opencv-python-headless
+scikit-learn
+flask
+gunicorn
+openai
+requests

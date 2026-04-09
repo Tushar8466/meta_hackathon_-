@@ -1,0 +1,20 @@
+<!-- templates/admin_login.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-[70vh] flex items-center justify-center px-10 hero-gradient">
+    <div class="glass-card w-full max-w-md p-12 rounded-[2.5rem]">
+        <div class="text-center mb-10">
+            <span class="text-5xl block mb-6">🔐</span>
+            <h2 class="text-3xl font-black text-[#1a432e] tracking-tight">Access Terminal</h2>
+            <p class="text-gray-400 text-sm mt-2 uppercase tracking-widest font-bold">Restricted Area</p>
+        </div>
+        <form action="/admin" method="get" class="space-y-6">
+            <div>
+                <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Authentication Key</label>
+                <input type="password" placeholder="System Code" class="w-full bg-gray-50 border-none p-5 rounded-2xl outline-none focus:ring-2 focus:ring-[#34d399] transition">
+            </div>
+            <button type="submit" class="btn-primary w-full py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl">Unlock Interface</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

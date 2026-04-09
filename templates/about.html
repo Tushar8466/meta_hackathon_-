@@ -1,0 +1,27 @@
+<!-- templates/about.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="py-24 px-10 max-w-4xl mx-auto text-center">
+    <div class="inline-block bg-[#f0f9f4] text-[#1a432e] px-4 py-1 rounded-full text-[10px] font-black tracking-widest mb-10 border border-[#34d399]/20">SYSTEM ARCHITECTURE</div>
+    <h2 class="text-6xl font-black text-[#1a432e] mb-12 tracking-tighter">Agricultural Neural<br>Processing Interface</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left mb-20">
+        <div class="glass-card p-10 rounded-[2rem]">
+            <h3 class="text-xl font-black text-[#1a432e] mb-4">Core Model</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Integrated with a custom ResNet-18 architecture trained on 50,000+ pathology samples from the PlantVillage dataset, achieving 99%+ validation precision.</p>
+        </div>
+        <div class="glass-card p-10 rounded-[2rem]">
+            <h3 class="text-xl font-black text-[#1a432e] mb-4">Edge Deployment</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Optimized for low-latency inference on mobile networks, ensuring that farmers in remote areas get critical data in sub-second timeframes.</p>
+        </div>
+    </div>
+    
+    <div class="glass-card p-12 rounded-[2.5rem] hero-gradient text-white border-none flex flex-col md:flex-row items-center justify-between gap-10">
+        <div class="text-left">
+            <h4 class="text-2xl font-black mb-2">Join the Network</h4>
+            <p class="text-white/60 text-sm">Contribute samples to improve our global accuracy.</p>
+        </div>
+        <a href="/" class="bg-white text-[#1a432e] px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#34d399] transition shadow-2xl">Connect Node</a>
+    </div>
+</div>
+{% endblock %}
