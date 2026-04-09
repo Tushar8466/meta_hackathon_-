@@ -1,16 +1,24 @@
 import os
+import sys
 import torch
 import torch.nn as nn
 from flask import Flask, request, jsonify
-from .env import CropEnv
-from .dataset import CropDataset
+
+# ==========================================
+# PATH INJECTION (Ensures imports work everywhere)
+# ==========================================
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+
+from env import CropEnv
+from dataset import CropDataset
 
 app = Flask(__name__)
 
 # ==========================================
 # OPENENV CONFIG
 # ==========================================
-# Note: When in a package, we need to handle paths correctly
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE_DIR, "dataset")
 dataset = None
