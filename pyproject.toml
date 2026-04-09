@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crop-disease-ai"
+version = "1.0.0"
+description = "RL environment for crop disease detection"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask",
+    "torch",
+    "torchvision",
+    "numpy",
+    "pillow",
+    "opencv-python-headless",
+    "scikit-learn",
+    "gunicorn",
+    "openai",
+    "requests",
+]
+
+[tool.setuptools]
+packages = ["."]
