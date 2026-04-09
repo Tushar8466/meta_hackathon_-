@@ -14,9 +14,18 @@ class CropDataset(Dataset):
             transforms.ToTensor()
         ])
 
-        # Step 1: Get valid class folders only
+        # Step 1: Ensure directory exists and get valid class folders
+        if not os.path.exists(root_dir):
+            print(f"⚠️ WARNING: Dataset directory '{root_dir}' not found. Creating it.")
+            os.makedirs(root_dir, exist_ok=True)
+
         self.classes = []
-        for d in os.listdir(root_dir):
+        try:
+            items = os.listdir(root_dir)
+        except Exception:
+            items = []
+
+        for d in items:
             full_path = os.path.join(root_dir, d)
 
             if d.startswith("."):  # skip hidden files like .DS_Store

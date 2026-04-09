@@ -8,3 +8,4 @@ flask
 gunicorn
 openai
 requests
+huggingface_hub
