@@ -53,7 +53,8 @@ def health():
 
 @app.route("/reset", methods=["POST"])
 def reset():
-    data = request.get_json() or {}
+    # Use silent=True and force=True to be tolerant of mission Content-Type headers
+    data = request.get_json(silent=True, force=True) or {}
     difficulty = data.get("difficulty", "easy")
     env.reset(difficulty=difficulty)
     return jsonify({
@@ -66,7 +67,8 @@ def reset():
 
 @app.route("/step", methods=["POST"])
 def step():
-    data = request.get_json() or {}
+    # Use silent=True and force=True to be tolerant of mission Content-Type headers
+    data = request.get_json(silent=True, force=True) or {}
     action = data.get("action")
     if action is None:
         return jsonify({"error": "Missing action"}), 400
