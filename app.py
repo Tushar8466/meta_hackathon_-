@@ -10,7 +10,9 @@ app = Flask(__name__)
 # ==========================================
 # OPENENV CONFIG
 # ==========================================
-DATASET_PATH = "dataset"
+# Note: When in a package, we need to handle paths correctly
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_PATH = os.path.join(BASE_DIR, "dataset")
 dataset = None
 
 # Only try to load dataset if the folder exists and is not empty
@@ -80,6 +82,9 @@ def step():
         "done": done
     })
 
+def main():
+    # HF Spaces use port 7860 by default
+    app.run(host="0.0.0.0", port=7860)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7860)
+    main()
