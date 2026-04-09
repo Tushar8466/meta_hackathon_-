@@ -22,5 +22,5 @@ ENV MODEL_NAME="crop-disease-v1"
 # HF Spaces expect port 7860
 EXPOSE 7860
 
-# Run the environment server
-CMD ["python", "app.py"]
+# Run the environment server from the server folder
+CMD ["python", "server/app.py"]
