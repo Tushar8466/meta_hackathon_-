@@ -27,6 +27,27 @@ else:
 env = CropEnv(dataset)
 
 # ==========================================
+# UI & HEALTH ROUTES
+# ==========================================
+
+@app.route("/", methods=["GET"])
+def home():
+    mode = "MOCK MODE (Simulated)" if env.mock_mode else "REAL MODE (Dataset Loaded)"
+    return f"""
+    <html>
+        <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #27ae60;">🌿 Crop Disease API is Active</h1>
+            <p><strong>Status:</strong> Running in {mode}</p>
+            <p>OpenEnv Endpoints: <code>/reset</code>, <code>/step</code></p>
+        </body>
+    </html>
+    """
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok", "mock_mode": env.mock_mode})
+
+# ==========================================
 # OPENENV ENDPOINTS (MANDATORY)
 # ==========================================
 
@@ -57,9 +78,6 @@ def step():
         "done": done
     })
 
-@app.route("/health", methods=["GET"])
-def health():
-    return jsonify({"status": "ok", "mock_mode": env.mock_mode})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=7860)
