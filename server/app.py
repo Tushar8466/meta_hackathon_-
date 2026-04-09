@@ -2,8 +2,8 @@ import os
 import torch
 import torch.nn as nn
 from flask import Flask, request, jsonify
-from env import CropEnv
-from dataset import CropDataset
+from .env import CropEnv
+from .dataset import CropDataset
 
 app = Flask(__name__)
 
