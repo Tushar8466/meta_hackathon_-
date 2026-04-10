@@ -1,6 +1,3 @@
-
-Copy
-
 import os
 import sys
 import torch
@@ -28,20 +25,25 @@ app = Flask(__name__)
 # MANDATORY: OPENAI CLIENT (STRICT PROXY)
 # ==========================================
 API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
-API_KEY = os.environ.get("API_KEY", "missing-key")
- 
-# Ensure base_url does not end with /chat/completions (OpenAI client adds it)
+API_KEY = os.environ.get("API_KEY", os.environ.get("HF_TOKEN", ""))
+
+# Ensure API_BASE_URL is not the local dummy address from Dockerfile
+if "0.0.0.0" in API_BASE_URL or "localhost" in API_BASE_URL:
+    API_BASE_URL = "https://api.openai.com/v1"
+
+# Strip '/chat/completions' if present, as the OpenAI client appends it
 if API_BASE_URL.endswith("/chat/completions"):
     API_BASE_URL = API_BASE_URL.replace("/chat/completions", "")
- 
+elif API_BASE_URL.endswith("/chat/completions/"):
+    API_BASE_URL = API_BASE_URL.replace("/chat/completions/", "")
+
 print(f"DEBUG: Using API_BASE_URL: {API_BASE_URL}")
-print(f"DEBUG: API_KEY present: {bool(API_KEY and API_KEY != 'missing-key')}")
- 
+
 client = OpenAI(
     base_url=API_BASE_URL,
-    api_key=API_KEY
+    api_key=API_KEY if API_KEY else "missing-key"
 )
- 
+
 MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o")
  
 # ==========================================

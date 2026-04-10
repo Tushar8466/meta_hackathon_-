@@ -51,15 +51,29 @@ transform = transforms.Compose([
 ])
 
 # -----------------------------
-# 2. LLM INTEGRATION (Hugging Face)
+# 2. LLM INTEGRATION (PROXIED)
 # -----------------------------
-HF_TOKEN = os.getenv("HF_TOKEN") or os.getenv("VITE_HF_TOKEN")
-HF_API_URL = "https://router.huggingface.co/v1/chat/completions"
-# Using the specific provider requested: featherless-ai
-HF_MODEL = "Qwen/Qwen2.5-1.5B-Instruct:featherless-ai"
+from openai import OpenAI
+
+# Proxy config
+PROXY_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
+PROXY_API_KEY = os.environ.get("API_KEY", os.environ.get("HF_TOKEN", ""))
+
+# Strip suffix if present
+if PROXY_BASE_URL.endswith("/chat/completions"):
+    PROXY_BASE_URL = PROXY_BASE_URL.replace("/chat/completions", "")
+elif PROXY_BASE_URL.endswith("/chat/completions/"):
+    PROXY_BASE_URL = PROXY_BASE_URL.replace("/chat/completions/", "")
+
+client = OpenAI(
+    base_url=PROXY_BASE_URL,
+    api_key=PROXY_API_KEY if PROXY_API_KEY else "missing-key"
+)
+
+HF_MODEL = os.environ.get("MODEL_NAME", "gpt-4o")
 
 def call_qwen_llm(disease, task):
-    if not HF_TOKEN:
+    if not PROXY_API_KEY:
         return "AI Advisory currently unavailable (Missing API Token)."
 
     if task == "medium":
@@ -69,20 +83,13 @@ def call_qwen_llm(disease, task):
     else:
         return ""
 
-    headers = {
-        "Authorization": f"Bearer {HF_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": HF_MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 1000 if task == "hard" else 300,
-    }
-
     try:
-        response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        response = client.chat.completions.create(
+            model=HF_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1000 if task == "hard" else 300,
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Consulting our agricultural database... (LLM Error: {str(e)})"
 
