@@ -9,3 +9,5 @@ gunicorn
 openai
 requests
 huggingface_hub
+python-dotenv
+openenv-core>=0.2.0

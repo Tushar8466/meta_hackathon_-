@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set environment variables (defaults)
-ENV API_BASE_URL="http://0.0.0.0:7860"
-ENV MODEL_NAME="crop-disease-v1"
+ENV MODEL_NAME="gpt-4o"
+
 
 # HF Spaces expect port 7860
 EXPOSE 7860

@@ -25,13 +25,20 @@ app = Flask(__name__)
 # MANDATORY: OPENAI CLIENT (STRICT PROXY)
 # ==========================================
 # The validator REQUIRES os.environ["API_BASE_URL"] and os.environ["API_KEY"]
-# We use .get with the platform's desired default base URL to ensure it works.
-API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
-API_KEY = os.environ.get("API_KEY") 
+API_BASE_URL = os.environ.get("API_BASE_URL")
+API_KEY = os.environ.get("API_KEY")
 
-# For local testing, fallback to HF_TOKEN if API_KEY is missing
+# For local development ONLY (Will be overridden by platform env vars)
+if not API_BASE_URL:
+    API_BASE_URL = "https://api.openai.com/v1"
 if not API_KEY:
     API_KEY = os.environ.get("HF_TOKEN", "missing-key")
+
+# Ensure base_url does not end with /chat/completions (OpenAI client adds it)
+if API_BASE_URL.endswith("/chat/completions"):
+    API_BASE_URL = API_BASE_URL.replace("/chat/completions", "")
+
+print(f"DEBUG: Using API_BASE_URL: {API_BASE_URL}")
 
 client = OpenAI(
     base_url=API_BASE_URL,
@@ -39,6 +46,7 @@ client = OpenAI(
 )
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o")
+
 
 # ==========================================
 # OPENENV CONFIG
