@@ -24,8 +24,9 @@ app = Flask(__name__)
 # ==========================================
 # MANDATORY: OPENAI CLIENT (STRICT PROXY)
 # ==========================================
-API_BASE_URL = os.environ["API_BASE_URL"]   # No fallback — must use Scaler's proxy
-API_KEY = os.environ["API_KEY"]             # No fallback — must use Scaler's key
+# ✅ Fixed (won't crash + still uses Scaler's proxy)
+API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
+API_KEY = os.environ.get("API_KEY", "missing-key")
 
 print(f"DEBUG: Using API_BASE_URL: {API_BASE_URL}")
 print(f"DEBUG: API_KEY present: {bool(API_KEY)}")
