@@ -24,12 +24,27 @@ app = Flask(__name__)
 # ==========================================
 # MANDATORY: OPENAI CLIENT (STRICT PROXY)
 # ==========================================
-# ✅ Fixed (won't crash + still uses Scaler's proxy)
-API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
-API_KEY = os.environ.get("API_KEY", "missing-key")
+# Robust Proxy Configuration (Prioritize platform vars)
+API_BASE_URL = (
+    os.environ.get("API_BASE_URL") or 
+    os.environ.get("OPENAI_API_BASE") or 
+    os.environ.get("OPENAI_BASE_URL") or 
+    "https://api.openai.com/v1"
+)
+API_KEY = (
+    os.environ.get("API_KEY") or 
+    os.environ.get("OPENAI_API_KEY") or 
+    "missing-key"
+)
 
-print(f"DEBUG: Using API_BASE_URL: {API_BASE_URL}")
-print(f"DEBUG: API_KEY present: {bool(API_KEY)}")
+# Strip /chat/completions from the base URL if present (LiteLLM requires base URL only)
+if API_BASE_URL.endswith("/chat/completions"):
+    API_BASE_URL = API_BASE_URL.replace("/chat/completions", "")
+elif API_BASE_URL.endswith("/chat/completions/"):
+    API_BASE_URL = API_BASE_URL.replace("/chat/completions/", "")
+
+print(f"🌿 CLOUD_INIT: Using Base URL: {API_BASE_URL}")
+print(f"🌿 CLOUD_INIT: API Key Detected: {bool(API_KEY) and API_KEY != 'missing-key'}")
 
 client = OpenAI(
     base_url=API_BASE_URL,
@@ -115,9 +130,9 @@ def step():
         "state": {
             "step": 1,
             "done": done,
-            "advisory": advisory
         },
-        "reward": reward,
+        "advisory": advisory,  # MANDATORY: Top-level for LiteLLM/OpenEnv graders
+        "reward": float(reward),
         "done": done
     })
 

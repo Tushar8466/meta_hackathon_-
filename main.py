@@ -55,19 +55,32 @@ transform = transforms.Compose([
 # -----------------------------
 from openai import OpenAI
 
-# Proxy config
-PROXY_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
-PROXY_API_KEY = os.environ.get("API_KEY", os.environ.get("HF_TOKEN", ""))
+# Robust Proxy Configuration (Prioritize platform vars)
+PROXY_BASE_URL = (
+    os.environ.get("API_BASE_URL") or 
+    os.environ.get("OPENAI_API_BASE") or 
+    os.environ.get("OPENAI_BASE_URL") or 
+    "https://api.openai.com/v1"
+)
+PROXY_API_KEY = (
+    os.environ.get("API_KEY") or 
+    os.environ.get("OPENAI_API_KEY") or 
+    os.environ.get("HF_TOKEN") or
+    "missing-key"
+)
 
-# Strip suffix if present
+# Strip /chat/completions from the base URL if present
 if PROXY_BASE_URL.endswith("/chat/completions"):
     PROXY_BASE_URL = PROXY_BASE_URL.replace("/chat/completions", "")
 elif PROXY_BASE_URL.endswith("/chat/completions/"):
     PROXY_BASE_URL = PROXY_BASE_URL.replace("/chat/completions/", "")
 
+print(f"🌿 CLOUD_INIT: Using Base URL: {PROXY_BASE_URL}")
+print(f"🌿 CLOUD_INIT: API Key Detected: {bool(PROXY_API_KEY) and PROXY_API_KEY != 'missing-key'}")
+
 client = OpenAI(
     base_url=PROXY_BASE_URL,
-    api_key=PROXY_API_KEY if PROXY_API_KEY else "missing-key"
+    api_key=PROXY_API_KEY
 )
 
 HF_MODEL = os.environ.get("MODEL_NAME", "gpt-4o")
